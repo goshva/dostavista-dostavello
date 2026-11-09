@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>Кабинет курьера — Достависта</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      onerror="window.__noLeafletCss=true">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="logo">DV</span>
+    <div>
+      <div class="title">Кабинет курьера</div>
+      <div class="sub" id="provider-label">—</div>
+    </div>
+  </div>
+  <div class="who" id="who">
+    <span class="dot" id="auth-dot"></span>
+    <span id="who-text">проверка сессии…</span>
+    <button class="btn ghost" id="btn-login">Войти</button>
+    <button class="btn ghost hidden" id="btn-logout">Выйти</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel controls">
+    <div class="row">
+      <label>Дата
+        <input type="date" id="date">
+      </label>
+      <label>Курьер
+        <select id="courier"><option value="">— авто —</option></select>
+      </label>
+      <label>Старт
+        <input type="text" id="start" placeholder="55.75,37.61">
+      </label>
+      <label>Финиш
+        <input type="text" id="end" placeholder="необязательно">
+      </label>
+      <label>Расстояния
+        <select id="mode">
+          <option value="haversine">по прямой (офлайн)</option>
+          <option value="osrm">по дорогам (OSRM)</option>
+        </select>
+      </label>
+    </div>
+    <div class="row actions">
+      <button class="btn primary" id="btn-build">Построить маршрут на день</button>
+      <button class="btn" id="btn-geo" title="Подставить текущие координаты как старт">Моё местоположение</button>
+      <a class="btn" id="lnk-gpx" href="#" download>GPX</a>
+      <a class="btn" id="lnk-csv" href="#" download>CSV</a>
+      <button class="btn ghost" id="btn-probe">Диагностика API</button>
+    </div>
+    <div id="alerts"></div>
+  </section>
+
+  <section class="stats" id="stats"></section>
+
+  <div class="split">
+    <section class="panel list-panel">
+      <h2>Порядок объезда</h2>
+      <ol class="stops" id="stops"><li class="empty">Нажмите «Построить маршрут на день».</li></ol>
+    </section>
+
+    <section class="panel map-panel">
+      <h2>Карта</h2>
+      <div id="map"></div>
+      <div id="map-fallback" class="hidden">
+        <svg id="plan-svg" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet"></svg>
+        <p class="hint">Leaflet не загрузился (нет интернета?) — показана схема. Список слева рабочий в любом случае.</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel" id="orders-panel" hidden>
+    <h2>Заказы дня <span class="muted" id="orders-count"></span></h2>
+    <div id="orders-list"></div>
+  </section>
+</main>
+
+<div class="modal hidden" id="login-modal">
+  <div class="modal-card">
+    <h2>Вход в кабинет</h2>
+    <p class="muted">
+      Используются учётные данные курьера-партнёра Достависты. Пароль не сохраняется на диск,
+      если вы не вписали его в <code>config.local.json</code>.
+    </p>
+    <label>E-mail <input type="email" id="login-email" autocomplete="username"></label>
+    <label>Пароль <input type="password" id="login-password" autocomplete="current-password"></label>
+    <details>
+      <summary>Войти по cookie сессии (если включена капча)</summary>
+      <label>Cookie <code>p_session</code>
+        <input type="text" id="login-session" placeholder="вставьте значение cookie p_session">
+      </label>
+      <p class="muted small">
+        Возьмите её в браузере: DevTools → Application → Cookies → <code>partner.dostavista.ru</code>.
+      </p>
+    </details>
+    <div class="row">
+      <button class="btn primary" id="btn-do-login">Войти</button>
+      <button class="btn ghost" id="btn-close-login">Отмена</button>
+    </div>
+    <div id="login-error" class="error"></div>
+  </div>
+</div>
+
+<div class="modal hidden" id="probe-modal">
+  <div class="modal-card wide">
+    <h2>Диагностика API</h2>
+    <div id="probe-body" class="probe"></div>
+    <button class="btn ghost" id="btn-close-probe">Закрыть</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="window.__noLeaflet=true"></script>
+<script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "dostavista-dostavello",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Курьерский коннектор и web-кабинет для Достависта: HTTP API вместо мобильного приложения + автоматическое построение маршрута на день",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "dvk": "./src/cli.js"
+  },
+  "scripts": {
+    "cli": "node src/cli.js",
+    "serve": "node src/cli.js serve",
+    "test": "node --test test/smoke.test.js test/partner-cabinet.test.js test/har-replay.test.js test/audit.test.js",
+    "audit": "node src/cli.js audit",
+    "ui-check": "node tools/ui-check.mjs --provider demo",
+    "ui-check-login": "node tools/ui-check.mjs --provider partner-cabinet --expect-login",
+    "whoami": "node src/cli.js whoami",
+    "orders": "node src/cli.js orders",
+    "route": "node src/cli.js route"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

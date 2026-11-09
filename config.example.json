@@ -1,0 +1,42 @@
+{
+  "_comment": "Скопируйте в config.local.json и заполните. config.local.json в .gitignore.",
+
+  "provider": "partner-cabinet",
+
+  "partnerCabinet": {
+    "baseUrl": "https://partner.dostavista.ru",
+    "email": "ваш-логин@example.com",
+    "password": "ваш-пароль",
+    "_session_comment": "Альтернатива логину: возьмите готовую сессию из браузера (cookie p_session) и вставьте сюда. Тогда email/password можно не указывать.",
+    "session": ""
+  },
+
+  "bapi": {
+    "_comment": "Официальное API Достависта для интернет-магазинов (сторона заказчика). Нужны client_id и token из личного кабинета.",
+    "baseUrl": "https://robot.dostavista.ru",
+    "clientId": "",
+    "token": ""
+  },
+
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8787
+  },
+
+  "routing": {
+    "_comment": "osrm: реальные дорожные расстояния через публичный демо-сервер OSRM. haversine: по прямой, работает офлайн.",
+    "distanceMode": "haversine",
+    "osrmBaseUrl": "https://router.project-osrm.org",
+    "averageSpeedKmh": 18,
+    "serviceMinutesPerStop": 7,
+    "startPoint": null,
+    "endPoint": null
+  },
+
+  "geocoding": {
+    "_comment": "Нужен только если у точек нет координат. Nominatim требует User-Agent и лимит 1 запрос/сек.",
+    "enabled": false,
+    "nominatimUrl": "https://nominatim.openstreetmap.org/search",
+    "userAgent": "dostavista-dostavello/0.1 (personal courier tool)"
+  }
+}
